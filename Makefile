@@ -1,0 +1,2 @@
+images:
+	cd containers; make

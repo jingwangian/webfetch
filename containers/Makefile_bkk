@@ -1,0 +1,23 @@
+
+# List of images that need to be created before other containers
+BASE_IMAGES = base
+
+# All images
+OTHER_IMAGES = development fetcher webserver
+
+
+###############################################################################
+# Build variables
+
+BASE_IMAGE_MARKERS = $(addsuffix /.built, $(BASE_IMAGES))
+OTHER_IMAGE_MARKERS = $(addsuffix /.built, $(OTHER_IMAGES))
+
+# Build base images
+base-images: $(BASE_IMAGE_MARKERS)
+images: base-images $(OTHER_IMAGE_MARKERS)
+
+
+# Generically build a dockerfile and leave a .built file
+%/.built: %/Dockerfile
+	docker build  -t webfetch/$* $*/
+	echo webfetch/$* > $@

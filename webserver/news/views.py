@@ -42,7 +42,7 @@ def list(request):
 
     res_message['contents'] = content_list
 
-    return JsonResponse(res_message)
+    return JsonResponse(content_list, safe=False)
 
 
 def rm(request):
@@ -52,6 +52,7 @@ def rm(request):
     number = dba.delete_all()
 
     return HttpResponse("Total {} records have been deleted!".format(number))
+
 
 def search_news(request, message):
     print("Input message: ", message)
@@ -68,4 +69,4 @@ def search_news(request, message):
 
     res_message['contents'] = content_list
 
-    return JsonResponse(res_message)
+    return JsonResponse(content_list, safe=False)

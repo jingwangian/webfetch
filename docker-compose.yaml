@@ -49,3 +49,11 @@ services:
     environment:
       - MONGODB_HOST=mongo
     command: ./start_fetch.sh
+
+  ###############################################
+  # swagger
+  swagger:
+    image: swaggerapi/swagger-editor:v3.6.21
+    ports:
+      - "80:8080"
+

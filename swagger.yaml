@@ -1,0 +1,86 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: webfetch servie API
+  license:
+    name: MIT
+servers:
+  - url: http://{host}:8000
+    description: The webfetch API server
+    variables:
+      host:
+        # note! no enum here means it is an open value
+        enum:
+          - 'localhost'
+        default: 'localhost'
+paths:
+  /news/list:
+    get:
+      operationId: api.news_list
+      summary: List news which is fetched
+      tags:
+        - news
+      responses:
+        '200':
+          description: Return entity tags result
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/NewsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /news/search/{keyword}:
+    get:
+      operationId: api.news_search
+      summary: serach article by key word
+      tags:
+        - news
+      parameters:
+        - name: keyword
+          in: path
+          description: key word to search
+          required: true
+          schema:
+            type: string
+            example: "abc"
+      responses:
+        '200':
+          description: Return entity tags result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  contents:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/NewsList"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    NewsList:
+      type: object
+      properties:
+        title:
+          type: "string"
+        author:
+          type: "array"
+          items: 
+            type: "string"
+        url:
+          type: "string"
+    Error:
+      properties:
+        message:
+          type: string
